@@ -42,8 +42,6 @@ jobs:
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
       
       - name: Restore cache
         uses: actions/cache@v4
@@ -66,6 +64,7 @@ jobs:
       
       - name: Build with Next.js
         run: |
+          rm -f next.config.js
           npm run build
           echo "Listing root directory content:"
           ls -F

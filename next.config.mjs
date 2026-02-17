@@ -1,5 +1,4 @@
-import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
   basePath: '/Svarka',
@@ -9,6 +8,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-} as any;
+};
 
 export default nextConfig;
