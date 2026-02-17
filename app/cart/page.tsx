@@ -59,7 +59,7 @@ export default function CartPage() {
         <div className="flex flex-col min-h-screen">
             <Header />
 
-            <main className="flex-1 py-12 container mx-auto px-4">
+            <main className="flex-1 pt-32 pb-12 container mx-auto px-4">
                 <h1 className="text-3xl font-heading font-black mb-8 uppercase">Ваша заявка</h1>
 
                 {items.length === 0 ? (

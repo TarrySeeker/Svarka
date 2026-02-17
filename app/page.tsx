@@ -177,9 +177,6 @@ export default function Home() {
 
               <div className="lg:w-1/2 w-full">
                 <div className="relative p-1 border border-white/10 bg-brand-gray/30 backdrop-blur-sm rounded-xl">
-                  <div className="absolute -top-6 -right-6 w-24 h-24 bg-white rounded-full flex items-center justify-center animate-bounce duration-[3000ms]">
-                    <span className="font-heading font-bold text-black text-xs uppercase text-center">Free<br />Estimate</span>
-                  </div>
                   <img
                     src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
                     alt="Calculator Preview"

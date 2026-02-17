@@ -10,7 +10,7 @@ export default function AboutPage() {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-1 py-12 container mx-auto px-4">
+            <main className="flex-1 pt-32 pb-12 container mx-auto px-4">
 
                 {/* Intro */}
                 <section className="text-center mb-16 max-w-4xl mx-auto">

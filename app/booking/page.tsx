@@ -10,7 +10,7 @@ export default function BookingPage() {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-1 container mx-auto px-4 py-24 flex items-center justify-center">
+            <main className="flex-1 container mx-auto px-4 pt-32 pb-24 flex items-center justify-center">
                 <Card className="max-w-md w-full text-center p-8 bg-industry-800">
                     <CardHeader>
                         <CardTitle className="text-3xl font-heading text-industry-accent mb-4">Начать проект</CardTitle>

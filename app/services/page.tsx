@@ -32,7 +32,7 @@ export default async function ServicesPage() {
         <div className="flex flex-col min-h-screen">
             <Header />
 
-            <main className="flex-1 py-12 container mx-auto px-4">
+            <main className="flex-1 pt-32 pb-12 container mx-auto px-4">
                 <div className="text-center mb-16 space-y-4">
                     <h1 className="text-4xl md:text-6xl font-heading font-black text-foreground uppercase">
                         Наши <span className="text-industry-accent">Услуги</span>
