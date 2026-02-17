@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/Button";
 
 // This is a Server Component by default (no "use client")
 // Data fetching happens on the server, producing HTML with data.
-export const revalidate = 0; // Disable cache to ensure fresh data (optional, or use revalidatePath)
 
 export default async function ServicesPage() {
 
