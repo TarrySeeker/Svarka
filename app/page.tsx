@@ -12,13 +12,25 @@ import { supabase } from "@/lib/supabaseClient";
 export default function Home() {
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [services, setServices] = useState<any[]>([]);
+  const [homeHero, setHomeHero] = useState<any>({
+    title: "ПРОМЫШЛЕННАЯ СВАРКА",
+    subtitle: "Мы создаем прочные связи. Промышленные сварочные решения премиум-класса для сложных архитектурных и инженерных проектов.",
+    buttonText: "Наши услуги"
+  });
 
   useEffect(() => {
-    async function getServices() {
-      const { data } = await supabase.from('services').select('*').order('id', { ascending: true });
-      if (data) setServices(data);
+    async function fetchData() {
+      const [servicesRes, contentRes] = await Promise.all([
+        supabase.from('services').select('*').order('id', { ascending: true }),
+        supabase.from('cms_content').select('*').eq('key', 'home_hero')
+      ]);
+
+      if (servicesRes.data) setServices(servicesRes.data);
+      if (contentRes.data && contentRes.data.length > 0) {
+        setHomeHero((prev: any) => ({ ...prev, ...contentRes.data[0].content }));
+      }
     }
-    getServices();
+    fetchData();
   }, []);
 
   return (
@@ -46,19 +58,21 @@ export default function Home() {
               </span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-heading font-black tracking-tighter text-white uppercase mb-8 leading-[0.9] drop-shadow-2xl animate-[fadeInUp_0.8s_ease-out_0.2s_both]">
-              Precision <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-brand-silver">Welding</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-black tracking-tighter text-white uppercase mb-8 leading-[0.9] drop-shadow-2xl animate-[fadeInUp_0.8s_ease-out_0.2s_both]">
+              {homeHero.title.split(' ')[0] || "ПРОМЫШЛЕННАЯ"} <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-brand-silver">
+                {homeHero.title.split(' ').slice(1).join(' ') || "СВАРКА"}
+              </span>
             </h1>
 
             <p className="max-w-xl mx-auto text-lg md:text-xl text-brand-silver font-light mb-12 animate-[fadeInUp_0.8s_ease-out_0.4s_both]">
-              Мы создаем прочные связи. Промышленные сварочные решения премиум-класса для сложных архитектурных и инженерных проектов.
+              {homeHero.subtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-[fadeInUp_0.8s_ease-out_0.6s_both]">
               <Link href="/services">
                 <Button size="lg" className="w-full sm:w-auto h-14 bg-white text-black hover:bg-brand-silver hover:text-black rounded-none uppercase tracking-widest font-bold px-8">
-                  Наши услуги
+                  {homeHero.buttonText}
                 </Button>
               </Link>
               <Link href="/contact">

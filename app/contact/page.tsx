@@ -5,8 +5,26 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ContactPage() {
+    const [contactInfo, setContactInfo] = useState({
+        phone: "+7 (343) 123-45-67",
+        email: "info@ironforge.ru",
+        address: "Екатеринбург, ул. Промышленная, 10",
+        schedule: "Пн-Пт: 9:00 - 18:00"
+    });
+
+    useEffect(() => {
+        async function fetchContent() {
+            const { data } = await supabase.from('cms_content').select('*').eq('key', 'contact_info').single();
+            if (data && data.content) {
+                setContactInfo(prev => ({ ...prev, ...data.content }));
+            }
+        }
+        fetchContent();
+    }, []);
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
@@ -66,8 +84,8 @@ export default function ContactPage() {
                                         <Phone className="h-6 w-6" />
                                     </div>
                                     <h3 className="font-bold">Телефон</h3>
-                                    <p className="text-sm text-industry-500">+7 (343) 123-45-67</p>
-                                    <p className="text-xs text-industry-600">Пн-Пт 9:00-18:00</p>
+                                    <p className="text-sm text-industry-500">{contactInfo.phone}</p>
+                                    <p className="text-xs text-industry-600">В рабочее время</p>
                                 </CardContent>
                             </Card>
                             <Card className="bg-industry-800/50">
@@ -76,7 +94,7 @@ export default function ContactPage() {
                                         <Mail className="h-6 w-6" />
                                     </div>
                                     <h3 className="font-bold">Email</h3>
-                                    <p className="text-sm text-industry-500">info@ironforge.ru</p>
+                                    <p className="text-sm text-industry-500">{contactInfo.email}</p>
                                     <p className="text-xs text-industry-600">Ответ в течение 24ч</p>
                                 </CardContent>
                             </Card>
@@ -86,8 +104,7 @@ export default function ContactPage() {
                                         <MapPin className="h-6 w-6" />
                                     </div>
                                     <h3 className="font-bold">Адрес</h3>
-                                    <p className="text-sm text-industry-500">ул. Промышленная, 10</p>
-                                    <p className="text-xs text-industry-600">г. Екатеринбург</p>
+                                    <p className="text-sm text-industry-500">{contactInfo.address}</p>
                                 </CardContent>
                             </Card>
                             <Card className="bg-industry-800/50">
@@ -95,9 +112,8 @@ export default function ContactPage() {
                                     <div className="p-3 bg-industry-900 rounded-full text-industry-accent">
                                         <Clock className="h-6 w-6" />
                                     </div>
-                                    <h3 className="font-bold">Аварийная служба</h3>
-                                    <p className="text-sm text-industry-500">24/7 Выезд</p>
-                                    <p className="text-xs text-industry-600">Звоните в любое время</p>
+                                    <h3 className="font-bold">Режим работы</h3>
+                                    <p className="text-sm text-industry-500">{contactInfo.schedule}</p>
                                 </CardContent>
                             </Card>
                         </div>

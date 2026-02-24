@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Syne } from "next/font/google"; // Syne for headings, Manrope for UI
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 const syne = Syne({
@@ -11,7 +12,7 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "WELDING | Premium Industrial Services",
+  title: "IRONFORGE | Premium Industrial Services",
   description: "High-precision welding services for industrial and residential needs.",
 };
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <Toaster theme="dark" position="bottom-right" />
       </body>
     </html>
   );
