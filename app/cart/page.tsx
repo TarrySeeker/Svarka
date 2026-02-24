@@ -27,7 +27,12 @@ export default function CartPage() {
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+        // Если вернулись с успешной оплатой
+        if (typeof window !== "undefined" && window.location.search.includes('payment_status=success')) {
+            setIsSubmitted(true);
+            setTimeout(() => clearCart(), 500);
+        }
+    }, [clearCart]);
 
     useEffect(() => {
         if (searchCity.length < 2) {
@@ -155,11 +160,11 @@ export default function CartPage() {
 
         try {
             // Save order to Supabase
-            const { error } = await supabase.from('orders').insert([{
+            const { data: orderData, error } = await supabase.from('orders').insert([{
                 customer_info: { name, phone, comment },
                 items: items,
                 total: finalTotal,
-                status: 'new',
+                status: 'pending',
                 shipping_cost: deliveryCost || 0,
                 shipping_method: selectedOffice ? 'СДЭК ПВЗ' : 'Не выбран',
                 delivery_detail: selectedOffice ? {
@@ -167,19 +172,39 @@ export default function CartPage() {
                     address: selectedOffice.location?.address || selectedOffice.address,
                     code: selectedOffice.code
                 } : null
-            }]);
+            }]).select('id').single();
 
-            if (error) {
+            if (error || !orderData) {
                 console.error("Error creating order:", error);
                 alert("Произошла ошибка при оформлении заказа.");
                 setIsSubmitting(false);
                 return;
             }
 
-            setIsSubmitted(true);
-            setTimeout(() => {
-                clearCart();
-            }, 500);
+            // Получаем ссылку на оплату от ЮKassa
+            const payRes = await fetch('/api/yookassa', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    orderId: orderData.id,
+                    amount: finalTotal,
+                    description: `Оплата заказа №${orderData.id} в IronForge`
+                })
+            });
+
+            const payData = await payRes.json();
+
+            if (payData.url) {
+                // Очищаем корзину и делаем редирект в шлюз оплаты (или на страницу заглушки)
+                setTimeout(() => {
+                    clearCart();
+                    window.location.href = payData.url;
+                }, 500);
+            } else {
+                alert("Ошибка создания платежа ЮKassa: " + (payData.error || "Неизвестная ошибка"));
+                setIsSubmitting(false);
+            }
+
         } catch (err) {
             console.error(err);
             setIsSubmitting(false);
