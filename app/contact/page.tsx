@@ -70,6 +70,12 @@ export default function ContactPage() {
                                     <label className="text-sm font-medium">Сообщение</label>
                                     <textarea rows={4} className="w-full bg-industry-900 border border-industry-600 rounded p-2"></textarea>
                                 </div>
+                                <div className="flex items-start gap-2 pt-2">
+                                    <input type="checkbox" id="privacy" required className="mt-1" />
+                                    <label htmlFor="privacy" className="text-xs text-industry-500 leading-tight">
+                                        Я принимаю условия <a href="/privacy" className="text-industry-accent hover:underline">политики конфиденциальности</a> и даю согласие на обработку персональных данных.
+                                    </label>
+                                </div>
                                 <Button className="w-full bg-industry-accent text-industry-900 hover:bg-industry-accent/90">Отправить</Button>
                             </form>
                         </CardContent>
@@ -84,7 +90,7 @@ export default function ContactPage() {
                                         <Phone className="h-6 w-6" />
                                     </div>
                                     <h3 className="font-bold">Телефон</h3>
-                                    <p className="text-sm text-industry-500">{contactInfo.phone}</p>
+                                    <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`} className="text-sm text-industry-500 hover:text-industry-accent hover:underline transition-colors">{contactInfo.phone}</a>
                                     <p className="text-xs text-industry-600">В рабочее время</p>
                                 </CardContent>
                             </Card>
@@ -94,7 +100,7 @@ export default function ContactPage() {
                                         <Mail className="h-6 w-6" />
                                     </div>
                                     <h3 className="font-bold">Email</h3>
-                                    <p className="text-sm text-industry-500">{contactInfo.email}</p>
+                                    <a href={`mailto:${contactInfo.email}`} className="text-sm text-industry-500 hover:text-industry-accent hover:underline transition-colors">{contactInfo.email}</a>
                                     <p className="text-xs text-industry-600">Ответ в течение 24ч</p>
                                 </CardContent>
                             </Card>

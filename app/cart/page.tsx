@@ -164,7 +164,7 @@ export default function CartPage() {
                 customer_info: { name, phone, comment },
                 items: items,
                 total: finalTotal,
-                status: 'pending',
+                status: 'new',
                 shipping_cost: deliveryCost || 0,
                 shipping_method: selectedOffice ? 'СДЭК ПВЗ' : 'Не выбран',
                 delivery_detail: selectedOffice ? {

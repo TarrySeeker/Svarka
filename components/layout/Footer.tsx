@@ -113,11 +113,11 @@ export function Footer() {
                             </li>
                             <li className="space-y-1">
                                 <span className="text-xs text-brand-silver uppercase block">Телефон</span>
-                                <span className="text-white text-sm">{contactInfo.phone}</span>
+                                <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`} className="text-white text-sm hover:text-brand-silver hover:underline transition-colors">{contactInfo.phone}</a>
                             </li>
                             <li className="space-y-1">
                                 <span className="text-xs text-brand-silver uppercase block">Email</span>
-                                <span className="text-white text-sm">{contactInfo.email}</span>
+                                <a href={`mailto:${contactInfo.email}`} className="text-white text-sm hover:text-brand-silver hover:underline transition-colors">{contactInfo.email}</a>
                             </li>
                             <li className="space-y-1">
                                 <span className="text-xs text-brand-silver uppercase block">Режим работы</span>

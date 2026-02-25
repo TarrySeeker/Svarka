@@ -74,7 +74,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
             <CardContent className="flex-1">
                 <div className="mb-4">
-                    <span className="text-2xl font-bold text-foreground">{service.price}</span>
+                    <span className="text-2xl font-bold text-foreground">
+                        {(service.price || '').toString().toLowerCase().startsWith('от') ? service.price : `от ${service.price || ''}`}
+                    </span>
                 </div>
                 <ul className="space-y-2 text-sm text-industry-500">
                     {service.features && service.features.map((feature, i) => (
@@ -87,7 +89,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
             <CardFooter className="gap-2">
                 <Link href={`/contact?service=${service.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">Уточнить</Button>
+                    <Button variant="outline" className="w-full transition-transform hover:scale-105 active:scale-95">Уточнить</Button>
                 </Link>
                 <Button className="flex-1" onClick={handleAddToCart}>
                     <ShoppingCart className="mr-2 h-4 w-4" /> В корзину

@@ -107,7 +107,9 @@ export function ServiceModal({ isOpen, onClose, service }: ServiceModalProps) {
                                     <div className="pt-4 border-t border-white/10">
                                         <div className="flex items-end justify-between mb-4">
                                             <span className="text-brand-silver text-sm">Стоимость услуги</span>
-                                            <span className="text-2xl font-heading font-bold text-white">{service.price}</span>
+                                            <span className="text-2xl font-heading font-bold text-white">
+                                                {(service.price || '').toString().toLowerCase().startsWith('от') ? service.price : `от ${service.price || ''}`}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
