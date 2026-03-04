@@ -181,6 +181,32 @@ export default function CartPage() {
                 return;
             }
 
+            // Отправка уведомлений
+            try {
+                await fetch('/api/notifications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderData: {
+                            id: orderData.id.toString(),
+                            customer_info: { name, phone, comment },
+                            items: items,
+                            total: finalTotal,
+                            shipping_cost: deliveryCost || 0,
+                            shipping_method: selectedOffice ? 'СДЭК ПВЗ' : 'Не выбран',
+                            delivery_detail: selectedOffice ? {
+                                city: selectedCity?.city,
+                                address: selectedOffice.location?.address || selectedOffice.address,
+                                code: selectedOffice.code
+                            } : null
+                        }
+                    })
+                });
+            } catch (notificationError) {
+                console.warn('Notification sending failed:', notificationError);
+                // Не прерываем процесс заказа из-за неудачных уведомлений
+            }
+
             // Получаем ссылку на оплату от ЮKassa
             const payRes = await fetch('/api/yookassa', {
                 method: 'POST',
